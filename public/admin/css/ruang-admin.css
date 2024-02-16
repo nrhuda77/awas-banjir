@@ -5,8 +5,8 @@
 }
 
 :root {
-  --color-primary: #6ee7ff;
-  --color-secondary: #0091ff;
+  --color-primary: #0091ff;
+  --color-secondary: #6ee7ff;
   --color-tr: transparent;
 }
 
@@ -811,7 +811,7 @@ a:focus {
 }
 
 .sidebar .sidebar-brand .sidebar-brand-text {
-  color: var(--color-secondary);
+  color: var(--color-primary);
   display: inline
 }
 
