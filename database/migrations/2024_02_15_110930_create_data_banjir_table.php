@@ -16,8 +16,8 @@ return new class extends Migration
             $table->date("tanggal_banjir");
             $table->string("wa");
             $table->string("foto");
-            $table->string("awal_banjir");
-            $table->string("akhir_banjir");
+            $table->dateTime("awal_banjir");
+            $table->dateTime("akhir_banjir");
             $table->string("height");
             $table->string("status");
             $table->timestamps();

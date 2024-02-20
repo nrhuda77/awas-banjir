@@ -10,9 +10,9 @@
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
   <title>RuangAdmin - Login</title>
-  <link href="{{asset("admin/vendor/fontawesome-free/css/all.min.cs")}}s" rel="stylesheet" type="text/css">
-  <link href="{{asset("admin/vendor/bootstrap/css/bootstrap.min.css")}}" rel="stylesheet" type="text/css">
-  <link href="{{asset("admin/css/ruang-admin.css")}}" rel="stylesheet">
+  <link href="{{asset('admin/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+  <link href="{{asset('admin/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+  <link href="{{asset('admin/css/ruang-admin.css')}}" rel="stylesheet">
 
 </head>
 
@@ -31,8 +31,7 @@
                   </div>
                   <form class="user">
                     <div class="form-group">
-                      <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"
-                        placeholder="Enter Email Address">
+                      <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address">
                     </div>
                     <div class="form-group">
                       <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
@@ -70,10 +69,10 @@
     </div>
   </div>
   <!-- Login Content -->
-  <script src="{{asset("admin/vendor/jquery/jquery.min.js")}}"></script>
-  <script src="{{asset("admin/vendor/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
-  <script src="{{asset("admin/vendor/jquery-easing/jquery.easing.min.js")}}"></script>
-  <script src="{{asset("admin/js/ruang-admin.min.js")}}"></script>
+  <script src="{{asset('admin/vendor/jquery/jquery.min.js')}}"></script>
+  <script src="{{asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{asset('admin/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+  <script src="{{asset('admin/js/ruang-admin.min.js')}}"></script>
 </body>
 
 </html>

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('data_harian', function (Blueprint $table) {
             $table->id("id_harian");
             $table->dateTime("date_time");
-            $table->string("harian");
+            $table->string("tinggi");
             $table->timestamps();
         });
     }
