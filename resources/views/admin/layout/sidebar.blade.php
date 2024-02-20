@@ -6,8 +6,8 @@
         <div class="sidebar-brand-text mx-3">Admin</div>
     </a>
     <hr class="sidebar-divider my-0">
-    <li class="nav-item active">
-        <a class="nav-link" href="/">
+    <li class="nav-item {{Request::is('dashboard') ? 'active' : ''}}">
+        <a class="nav-link" href="/dashboard">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -15,19 +15,19 @@
     <div class="sidebar-heading">
         Features
     </div>
-    <li class="nav-item">
+    <li class="nav-item {{Request::is('banjir') ? 'active' : ''}}">
         <a class="nav-link" href="/banjir">
             <i class="fas fa-fw fa-water"></i>
             <span>Banjir</span>
         </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item {{Request::is('influencer') ? 'active' : ''}}">
         <a class="nav-link" href="/influencer">
             <i class="fas fa-fw fa-users"></i>
             <span>Influencer</span>
         </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item {{Request::is('whatsapp') ? 'active' : ''}}">
         <a class="nav-link" href="/whatsapp">
             <i class="fab fa-fw fa-whatsapp"></i>
             <span>Whats App</span>
@@ -44,5 +44,23 @@
             <span>User</span>
         </a>
     </li>
+
+
+    <li class="nav-item">
+        <form action="/logout" method="POST" class="dropdown-item">
+            @csrf
+            <button type="submit" class="border-0 bg-white">
+                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                Logout
+            </button>
+           
+        </form>
+    </li>
+
+
+
+   
+   
+
 
 </ul>

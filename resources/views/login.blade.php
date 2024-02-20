@@ -29,12 +29,13 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Login</h1>
                   </div>
-                  <form class="user">
+                  <form class="user" action="/login" method="POST">
+                    @csrf
                     <div class="form-group">
-                      <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address">
+                      <input type="text" name="username" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Username">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
+                      <input type="password" name="password" class="form-control" id="exampleInputPassword" placeholder="Password">
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small" style="line-height: 1.5rem;">
@@ -44,7 +45,8 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <a href="{{"/dashboard"}}" class="btn btn-primary btn-block">Login</a>
+               
+                      <button class="btn btn-primary btn-block" type="submit">Login</button>
                     </div>
                     <hr>
                     <a href="index.html" class="btn btn-google btn-block">
