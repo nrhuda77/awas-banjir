@@ -22,6 +22,7 @@ Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('g
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/balikpapan', [DashboardController::class, 'getData'])->middleware('auth');
 Route::get('/harian', [DashboardController::class, 'ajaxData'])->middleware('auth');
 
 // influencer

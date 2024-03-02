@@ -1,6 +1,65 @@
 @extends('admin.layout.template')
 
+@section('style')
 
+<style>
+  .card-cuaca {
+    width: 100%;
+    height: 250px;
+    position: relative;
+    padding: 20px;
+    color: #fff;
+    display: flex;
+    border-radius: 20px 350px 20px 20px;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .background {
+    fill: #5936B4;
+    /* Set the initial fill color */
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transition: fill 1s ease;
+    /* Add a transition effect */
+  }
+
+  .card-cuaca:hover .background {
+    fill: #362A84;
+    /* Change the fill color on hover */
+  }
+
+  .cloud {
+    position: absolute;
+    right: 0;
+    top: -12px;
+  }
+
+  .cloud svg {
+    height: 120px;
+  }
+
+  .card-cuaca .main-text {
+    font-size: 48px;
+    z-index: 2;
+  }
+
+  .card-cuaca .info {
+    display: flex;
+    font-size: 22px;
+    justify-content: space-between;
+  }
+
+  .card-cuaca .info .text-gray {
+    color: rgba(235, 235, 245, 0.60);
+  }
+
+  .card-cuaca .info .info-right {
+    align-self: flex-end;
+  }
+</style>
+@endsection
 @section('content')
 <!-- Container Fluid-->
 <div class="container-fluid" id="container-wrapper">
@@ -13,94 +72,71 @@
   </div>
 
   <div class="row mb-3">
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card h-100">
-        <div class="card-body">
-          <div class="row align-items-center">
-            <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-uppercase mb-1">Earnings (Monthly)</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-              <div class="mt-2 mb-0 text-muted text-xs">
-                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                <span>Since last month</span>
-              </div>
-            </div>
-            <div class="col-auto">
-              <i class="fas fa-calendar fa-2x text-primary"></i>
-            </div>
+    @if($cuacaStatus == 'Hujan')
+    <div class="col-xl-6 col-md-6 mb-4">
+      <div class="card-cuaca" style="background: #362A84;">
+        <div class="cloud">
+          <img src="/weather/storm.svg" alt="">
+        </div>
+        <p class="main-text">{{ str_replace('&deg;', '°', $temperatur[0]) }}</p>
+        <div class="info">
+          <div class="info-left">
+            <p class="text-gray">{{ str_replace('&nbsp;', ' ', $waktu[0]) }}</p>
+            <p>Balikpapan, Indonesia</p>
           </div>
+          <p class="info-right">{{$cuaca[0]}}</p>
         </div>
       </div>
     </div>
-    <!-- Earnings (Annual) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card h-100">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-uppercase mb-1">Sales</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">650</div>
-              <div class="mt-2 mb-0 text-muted text-xs">
-                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                <span>Since last years</span>
-              </div>
-            </div>
-            <div class="col-auto">
-              <i class="fas fa-shopping-cart fa-2x text-success"></i>
-            </div>
+    @elseif($cuacaStatus == 'Berawan')
+    <!-- berawan -->
+    <div class="col-xl-6 col-md-6 mb-4">
+      <div class="card-cuaca" style="background: #7D7C7C;">
+        <div class="cloud">
+          <img src="/weather/cloud.svg" alt="">
+        </div>
+        <p class="main-text">{{ str_replace('&deg;', '°', $temperatur[0]) }}</p>
+
+        <div class="info">
+          <div class="info-left">
+            <p><i class="fas fa-tint"></i> {{str_replace('<i class="wi wi-raindrop"></i>', ' ', $air[0])}}</p>
+            <p class="text-gray">{{ str_replace('&nbsp;', ' ', $waktu[0]) }}</p>
+            <p>Balikpapan, Indonesia</p>
           </div>
+          <p class="info-right">{{$cuaca[0]}}</p>
         </div>
       </div>
     </div>
-    <!-- New User Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card h-100">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-uppercase mb-1">New User</div>
-              <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">366</div>
-              <div class="mt-2 mb-0 text-muted text-xs">
-                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span>
-                <span>Since last month</span>
-              </div>
-            </div>
-            <div class="col-auto">
-              <i class="fas fa-users fa-2x text-info"></i>
-            </div>
+    @else
+    <!-- cerah -->
+    <div class="col-xl-6 col-md-6 mb-4">
+      <div class="card-cuaca" style="background: #7BD3EA;">
+        <div class="cloud">
+          <img src="/weather/sunny.svg" alt="">
+        </div>
+        <p class="main-text">{{ str_replace('&deg;', '°', $temperatur[0]) }}</p>
+        <div class="info">
+          <div class="info-left">
+            <p class="text-gray">{{ str_replace('&nbsp;', ' ', $waktu[0]) }}</p>
+            <p>Balikpapan, Indonesia</p>
           </div>
+          <p class="info-right">{{$cuaca[0]}}</p>
         </div>
       </div>
     </div>
-    <!-- Pending Requests Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card h-100">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-uppercase mb-1">Pending Requests</div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-              <div class="mt-2 mb-0 text-muted text-xs">
-                <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                <span>Since yesterday</span>
-              </div>
-            </div>
-            <div class="col-auto">
-              <i class="fas fa-comments fa-2x text-warning"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    @endif
+  </div>
+  <div class="row">
+
+
 
     <!-- Area Chart -->
 
     <!-- Invoice Example -->
-    <div class="col-xl-8 col-lg-7 mb-4">
+    <div class="col-xl-12 col-lg-7 mb-4">
       <div class="card mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
+          <h6 class="m-0 font-weight-bold text-primary">Data Harian</h6>
         </div>
         <div class="card-body">
           <div class="chart-area">
@@ -119,47 +155,6 @@
       </div>
     </div>
     <!-- Message From Customer-->
-    <div class="col-xl-4 col-lg-5 ">
-      <div class="card">
-        <div class="card-header py-4 bg-primary d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-light">Message From Customer</h6>
-        </div>
-        <div>
-          <div class="customer-message align-items-center">
-            <a class="font-weight-bold" href="#">
-              <div class="text-truncate message-title">Hi there! I am wondering if you can help me with a
-                problem I've been having.</div>
-              <div class="small text-gray-500 message-time font-weight-bold">Udin Cilok · 58m</div>
-            </a>
-          </div>
-          <div class="customer-message align-items-center">
-            <a href="#">
-              <div class="text-truncate message-title">But I must explain to you how all this mistaken idea
-              </div>
-              <div class="small text-gray-500 message-time">Nana Haminah · 58m</div>
-            </a>
-          </div>
-          <div class="customer-message align-items-center">
-            <a class="font-weight-bold" href="#">
-              <div class="text-truncate message-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit
-              </div>
-              <div class="small text-gray-500 message-time font-weight-bold">Jajang Cincau · 25m</div>
-            </a>
-          </div>
-          <div class="customer-message align-items-center">
-            <a class="font-weight-bold" href="#">
-              <div class="text-truncate message-title">At vero eos et accusamus et iusto odio dignissimos
-                ducimus qui blanditiis
-              </div>
-              <div class="small text-gray-500 message-time font-weight-bold">Udin Wayang · 54m</div>
-            </a>
-          </div>
-          <div class="card-footer text-center">
-            <a class="m-0 small text-primary card-link" href="#">View More <i class="fas fa-chevron-right"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
   <!--Row-->
 
@@ -276,5 +271,20 @@
         }
       });
     }
+
+
+
+    // $(document).ready(function() {
+    //   $.ajax({
+    //     url: '/balikpapan',
+    //     type: 'GET',
+    //     success: function(response) {
+    //       console.log(response);
+    //     },
+    //     error: function(xhr, status, error) {
+    //       console.error(xhr.responseText);
+    //     }
+    //   });
+    // });
   </script>
   @endsection

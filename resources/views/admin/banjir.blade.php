@@ -74,6 +74,7 @@
           <div class="card mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 class="m-0 font-weight-bold text-primary">Influencer</h6>
+              <button type="submit" class="btn btn-primary" onclick="save()">Save</button>
             </div>
             <div class="table-responsive p-3">
               <table class="table align-items-center table-flush table-hover" id="dataTable">
@@ -122,31 +123,36 @@
             <input type="hidden" value="" name="id" id="id" />
 
             <div class="form-group row">
-              <label class="col-sm-3 control-label">Influencer Name</label>
+              <label class="col-sm-3 control-label">tanggal banjir</label>
               <div class="col-md-7">
-                <input name="nama" type="text" class="form-control" id="nama" value="">
+                <input name="tanggal_banjir" type="text" class="form-control" id="tanggal_banjir" value="">
                 <span class="help-block text-danger"></span>
               </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-3 control-label">Whats App</label>
               <div class="col-md-7">
-                <input name="no_wa" type="text" class="form-control" id="no_wa" value="">
+                <input name="wa" type="text" class="form-control" id="wa" value="">
                 <span class="help-block text-danger"></span>
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-3 control-label">Pekerjaan</label>
+              <label class="col-sm-3 control-label">Foto</label>
               <div class="col-md-7">
-                <input name="pekerjaan" type="text" class="form-control" id="pekerjaan" value="">
+                <input name="status" type="text" class="form-control" id="status" value="">
                 <span class="help-block text-danger"></span>
               </div>
             </div>
+
+
+            <center>
+              <img src="" id="img" class="img-fluid">
+            </center>
           </form>
 
         </div>
         <div class="modal-footer justify-content-between">
-          <button type="button" id="btnSave" onclick="save()" class="btn btn-primary">Simpan</button>
+          <!-- <button type="button" id="btnSave" onclick="save()" class="btn btn-primary">Simpan</button> -->
           <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
         </div>
       </div>
@@ -336,14 +342,20 @@
           {
             "data": null,
             "render": function(data, type, row, meta) {
-              return row.status == 1 ? "Selesai" : "Belum Selesai";
+              if (row.status == 0) {
+                return "Daftar";
+              } else if (row.status == 1) {
+                return "Progress";
+              } else {
+                return "Selesai";
+              }
             }
           }, // Tampilkan kolom subkat pada table sub kategori
           {
             "data": "id_banjir", // Tampilkan kolomid_kategori pada table kategori
             "render": function(data, type, row, meta) {
-              return '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="view(' +
-                data + ')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>' + ' <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="hapus(' + data + ')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+              return '<a class="btn btn-sm btn-info" href="javascript:void(0)" title="Edit" onclick="view(' +
+                data + ')"><i class="glyphicon glyphicon-pencil"></i> View</a>';
             }
           },
         ],
@@ -364,10 +376,11 @@
         type: "GET",
         dataType: "JSON",
         success: function(data) {
-          $('[name="id"]').val(data.id_influencer);
-          $('[name="nama"]').val(data.nama);
-          $('[name="no_wa"]').val(data.no_wa);
-          $('[name="pekerjaan"]').val(data.pekerjaan);
+          $('[name="id"]').val(data.id_banjir);
+          $('[name="tanggal_banjir"]').val(data.tanggal_banjir);
+          $('[name="wa"]').val(data.wa);
+          $('[name="status"]').val(data.status);
+          $('#img').attr("src", "/foto/" + data.foto);
           $('#modal-lg').modal('show'); // show bootstrap modal when complete loaded
           $('.modal-title').text('Edit Influencer'); // Set title to Bootstrap modal title
 

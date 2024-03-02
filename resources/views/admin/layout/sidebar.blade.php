@@ -36,31 +36,31 @@
 
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
-        Settings
+        More
     </div>
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link" href="/admin/user">
             <i class="fas fa-fw fa-cogs"></i>
             <span>User</span>
         </a>
-    </li>
+    </li> -->
 
 
     <li class="nav-item">
-        <form action="/logout" method="POST" class="dropdown-item">
+        <form action="/logout" method="POST" class="" style="">
             @csrf
-            <button type="submit" class="border-0 bg-white">
-                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+            <button type="submit" class="nav-link" style="border: none;">
+                <i class="fas fa-sign-out-alt "></i>
                 Logout
             </button>
-           
+
         </form>
     </li>
 
 
 
-   
-   
+
+
 
 
 </ul>
