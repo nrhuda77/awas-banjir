@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class checkModel extends Model
 {
     use HasFactory;
-    protected $table = 'data_banjir';
+    protected $table = 'check';
     protected $primaryKey = 'id_check';
     protected $fillable = ['next_insert', 'tinggi'];
+    public $timestamps = false;
 }

@@ -8,7 +8,8 @@ use App\Models\HarianModel;
 use App\Models\checkModel;
 use App\Models\UmumModel;
 use App\Models\InfluencerModel;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 use DataTables;
 
@@ -72,31 +73,31 @@ class BanjirController extends Controller
     }
 
     public function apiBanjir(Request $request)
-    {
-        date_default_timezone_set("Asia/Kuala_Lumpur");
+{
+    date_default_timezone_set("Asia/Kuala_Lumpur");
 
-        $data = CheckModel::find(1);
-        $nextInsert = $data['next_insert']; // timestamp type
-        $time = date('Y-m-d H:i:s');
-        $date = date('Y-m-d');
+    $data = CheckModel::first(); // Retrieve the first record from the database
+    $nextInsert = $data->next_insert; // timestamp type
+    $time = date('Y-m-d H:i:s');
+    $date = date('Y-m-d');
 
-        if ($time >= $nextInsert) {
-            $tinggi = $request->tinggi;
-            $data = $tinggi;
-            HarianModel::create(['tinggi' => $data, 'date_time' => $time]); // Menggunakan waktu saat ini untuk insert
+    if ($time >= $nextInsert) {
+        $tinggi = $request->tinggi;
+        $data->tinggi = $tinggi;
+        HarianModel::create(['tinggi' => $tinggi, 'date_time' => $time]); // Menggunakan waktu saat ini untuk insert
 
-            if ($tinggi >= 300) {
-                BanjirModel::create(['tanggal_banjir' => $date, 'wa' => 0, 'awal_banjir' => $time, 'status' => 0]);
-            }
-            $newDate = date("Y-m-d H:i:s", strtotime($nextInsert . " +10 minutes"));
-
-            // Perbarui waktu untuk insert berikutnya
-            $data->update(['next_insert' => $newDate]);
-            return response()->json(['status' => true]);
-        } else {
-            return response()->json(['status' => false, 'message' => 'Belum waktunya untuk insert']);
+        if ($tinggi <= 300) {
+            BanjirModel::create(['tanggal_banjir' => $date, 'wa' => 0, 'awal_banjir' => $time, 'status' => 0]);
         }
+        $newDate = date("Y-m-d H:i:s", strtotime($nextInsert . " +10 minutes"));
+
+        // Perbarui waktu untuk insert berikutnya
+        $data->update(['next_insert' => $newDate]);
+        return response()->json(['status' => true]);
+    } else {
+        return response()->json(['status' => false, 'message' => 'Belum waktunya untuk insert']);
     }
+}
     public function apiPhoto(Request $request)
     {
         $data = BanjirModel::where('status', 0)->first();
@@ -104,18 +105,25 @@ class BanjirController extends Controller
         if ($data) {
 
             // Lakukan penyimpanan foto dari $request->foto
-            if ($request->hasFile('foto')) {
-                $foto = $request->file('foto');
+            // if ($request->hasFile('image')) {
+            //     $foto = $request->image;
 
-                // Generate nama file baru (misalnya, menggunakan timestamp)
-                $namaFile = time() . '_' . $foto->getClientOriginalName();
+            //     // Generate nama file baru (misalnya, menggunakan timestamp)
+            //     $namaFile = time() . '_' . $foto->getClientOriginalName();
 
-                // Simpan foto dengan nama file baru
-                $fotoPath = $foto->storeAs('foto', $namaFile, 'public');
+            //     // Simpan foto dengan nama file baru
+            //     Storage::disk('public')->put($namaFile, $foto);
 
-                // Perbarui kolom 'foto' pada BanjirModel dengan path foto yang baru
-                $data->update(['foto' => $namaFile]);
-            }
+            //     // Perbarui kolom 'foto' pada BanjirModel dengan path foto yang baru
+            //     $data->update(['foto' => $namaFile]);
+            // }
+
+            $image = $request->image;  // your base64 encoded
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $imageName = Str::random(10).'.'.'png';
+            Storage::disk('public')->put($imageName, base64_decode($image));
+            $data->update(['foto' => $imageName]);
 
             $influencers = InfluencerModel::all();
             foreach ($influencers as $influencer) {
@@ -178,8 +186,19 @@ class BanjirController extends Controller
             // Ambil maksimum tinggi yang ada di database
             $maxTinggi = HarianModel::max('tinggi');
 
-            // Update kolom 'tinggi' dan 'status' pada BanjirModel
-            $banjir->update(['tinggi' => $maxTinggi, 'status' => 2]);
+            // Ambil waktu surut dengan tinggi lebih besar atau sama dengan 400 dan setelah waktu awal banjir
+            $jamSurut = HarianModel::where('tinggi', '>=', 400)
+                ->where('date_time', '>=', $banjir->awal_banjir)
+                ->first();
+
+            // Update kolom 'tinggi', 'status', dan 'akhir_banjir' pada BanjirModel
+
+            $banjir->update([
+                'tinggi' => $maxTinggi,
+                'status' => 2,
+                'akhir_banjir' => $jamSurut->date_time
+            ]);
+
 
             // Hapus semua data harian
             HarianModel::truncate();

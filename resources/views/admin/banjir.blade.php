@@ -380,7 +380,7 @@
           $('[name="tanggal_banjir"]').val(data.tanggal_banjir);
           $('[name="wa"]').val(data.wa);
           $('[name="status"]').val(data.status);
-          $('#img').attr("src", "/foto/" + data.foto);
+          $('#img').attr("src", "/storage/" + data.foto);
           $('#modal-lg').modal('show'); // show bootstrap modal when complete loaded
           $('.modal-title').text('Edit Influencer'); // Set title to Bootstrap modal title
 
